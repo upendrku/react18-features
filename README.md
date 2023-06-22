@@ -313,14 +313,6 @@ useEffect(() => {
 
 Here's a comparison of the major updates and differences between React versions 15, 16, 17, and 18:
 
-# React Version Comparison
-
-Here's a comparison of the major updates and differences between React versions 15, 16, 17, and 18:
-
-# React Version Comparison
-
-Here's a comparison of the major updates and differences between React versions 15, 16, 17, and 18:
-
 | React Version | Major Updates and Differences                                                                                                                                   |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | React 15      | - Introduced the concept of React components using classes.                                                                                                     |
