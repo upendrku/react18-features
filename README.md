@@ -340,3 +340,39 @@ Here's a comparison of the major updates and differences between React versions 
 |               | - **Improved Profiling**: Enhanced profiling capabilities to provide better insights into the performance of React components.                                  |
 
 React Hooks were introduced in React version 16.8
+
+## React Lifecycle Methods vs Hooks
+
+Here's a comparison of React lifecycle methods with their equivalent hooks, arranged based on the mounting, updating, and unmounting phases:
+
+## Mounting Phase
+
+| React Lifecycle Methods           | Equivalent Hooks                   |
+| --------------------------------- | ---------------------------------- |
+| `constructor`                     | N/A (handled differently in hooks) |
+| `static getDerivedStateFromProps` | `useState` or `useReducer`         |
+| `render`                          | N/A (handled differently in hooks) |
+| `componentDidMount`               | `useEffect`                        |
+
+## Updating Phase
+
+| React Lifecycle Methods           | Equivalent Hooks                   |
+| --------------------------------- | ---------------------------------- |
+| `static getDerivedStateFromProps` | `useState` or `useReducer`         |
+| `shouldComponentUpdate`           | `React.memo` and `React.useMemo`   |
+| `render`                          | N/A (handled differently in hooks) |
+| `componentDidUpdate`              | `useEffect`                        |
+
+## Unmounting Phase
+
+| React Lifecycle Methods | Equivalent Hooks |
+| ----------------------- | ---------------- |
+| `componentWillUnmount`  | `useEffect`      |
+
+## Error Handling
+
+| React Lifecycle Methods | Equivalent Hooks                                                                 |
+| ----------------------- | -------------------------------------------------------------------------------- |
+| `componentDidCatch`     | `useErrorBoundary` (ErrorBoundary component with `useEffect` for error handling) |
+
+Please note that hooks are not exact replacements for all lifecycle methods. Some lifecycle methods have no direct equivalent in hooks, and their behavior is achieved through different means or combinations of hooks.
