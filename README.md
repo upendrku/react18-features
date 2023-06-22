@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# React 18 Hooks Summary
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This file summarizes all the React 18 hooks, with the most important key points specific to each hook to remember for an interview for a senior software developer.
 
-## Available Scripts
+## Hooks
 
-In the project directory, you can run:
+### useState
 
-### `npm start`
+The `useState` hook is used to manage state in functional components. It takes an initial state value as an argument and returns an array with two values: the current state value and a function to update the state value.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### useEffect
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The `useEffect` hook is used to run side effects in functional components. It takes a callback function as an argument, which is executed after the component is mounted and whenever the component's props or state change.
 
-### `npm test`
+### useContext
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The `useContext` hook is used to access context data in functional components. It takes a context object as an argument and returns the current value of the context data.
 
-### `npm run build`
+### useRef
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The `useRef` hook is used to create a ref object in functional components. The ref object can be used to access a DOM element or other value from within the component.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### useReducer
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The `useReducer` hook is used to manage state in functional components using reducers. It takes a reducer function as an argument and returns an array with two values: the current state value and a function to dispatch actions.
 
-### `npm run eject`
+### useMemo
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The `useMemo` hook is used to memoize a value in functional components. It takes a callback function as an argument and returns the result of the callback function the first time it is called, and then the memoized value for subsequent calls.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### useCallback
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The `useCallback` hook is used to memoize a function in functional components. It takes a callback function as an argument and returns a memoized version of the callback function.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### useRefCallback
 
-## Learn More
+The `useRefCallback` hook is used to create a ref object that contains a memoized function. It takes a callback function as an argument and returns a ref object that contains the memoized function.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### useLayoutEffect
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The `useLayoutEffect` hook is similar to the `useEffect` hook but is executed after the layout has been calculated. This can be useful for effects that need to be executed after the DOM has been rendered.
 
-### Code Splitting
+### useDebugValue
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The `useDebugValue` hook is used to debug values in functional components. It takes a value and an optional object of options as arguments. The options object can be used to customize the label and value that are rendered in the React DevTools.
 
-### Analyzing the Bundle Size
+### useTransition
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The `useTransition` hook is used to manage transitions in functional components. It takes a configuration object as an argument and returns an object with two values: the current transition state and a function to update the transition state.
 
-### Making a Progressive Web App
+### useDeferredValue
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The `useDeferredValue` hook is used to defer the evaluation of a value. It takes a value as an argument and returns a promise that resolves to the value after a delay.
 
-### Advanced Configuration
+### useSyncExternalStore
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+The `useSyncExternalStore` hook is used to subscribe to an external store. It takes an external store function as an argument and returns the current value of the external store.
 
-### Deployment
+### useId
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The useId hook is used to generate a unique ID for a component. The hook returns a string that can be used to identify the component.
 
-### `npm run build` fails to minify
+### useImperativeHandle
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The useImperativeHandle hook is used to expose a mutable ref to a component. The hook takes a ref object as an argument, and the hook returns a function that can be used to update the ref object.
