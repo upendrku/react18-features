@@ -58,8 +58,8 @@ The `useSyncExternalStore` hook is used to subscribe to an external store. It ta
 
 ### useId
 
-The useId hook is used to generate a unique ID for a component. The hook returns a string that can be used to identify the component.
+The `useId` hook is used to generate a unique ID for a component. The hook returns a string that can be used to identify the component.
 
 ### useImperativeHandle
 
-The useImperativeHandle hook is used to expose a mutable ref to a component. The hook takes a ref object as an argument, and the hook returns a function that can be used to update the ref object.
+The `useImperativeHandle` hook is used to expose a mutable ref to a component. The hook takes a ref object as an argument, and the hook returns a function that can be used to update the ref object.
