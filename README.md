@@ -1,6 +1,62 @@
 # React 18 Summary
 
-This file summarizes all the React 18 hooks, with the most important key points specific to each hook to remember for an interview for a senior software developer.
+This file summarizes all the React 18 features, with the most important key points specific to each hook to remember for an interview for a senior software developer.
+
+## What’s New in React 18
+
+### Automatic Batching
+
+```jsx
+// Before: only React events were batched.
+setTimeout(() => {
+  setCount((c) => c + 1)
+  setFlag((f) => !f)
+  // React will render twice, once for each state update (no batching)
+}, 1000)
+
+// After: updates inside of timeouts, promises,
+// native event handlers or any other event are batched.
+setTimeout(() => {
+  setCount((c) => c + 1)
+  setFlag((f) => !f)
+  // React will only re-render once at the end (that's batching!)
+}, 1000)
+```
+
+### Transitions
+
+A transition is a new concept in React to distinguish between urgent and non-urgent updates.
+
+Urgent updates reflect direct interaction, like typing, clicking, pressing, and so on.
+Transition updates transition the UI from one view to another.
+
+### New Suspense Features
+
+Support for Suspense on the server and expanded its capabilities using concurrent rendering features.
+
+Suspense in React 18 works best when combined with the transition API. If you suspend during a transition, React will prevent already-visible content from being replaced by a fallback. Instead, React will delay the render until enough data has loaded to prevent a bad loading state.
+
+### New Client and Server Rendering APIs
+
+React DOM Client -
+
+createRoot (Use it instead of ReactDOM.render), hydrateRoot (Use it instead of ReactDOM.hydrate in conjunction with the new React DOM Server APIs)
+Both createRoot and hydrateRoot accept a new option called onRecoverableError in case you want to be notified when React recovers from errors during rendering or hydration for logging. By default, React will use reportError, or console.error in the older browsers.
+
+React DOM Server -
+These new APIs are now exported from react-dom/server and have full support for streaming Suspense on the server:
+renderToPipeableStream: for streaming in Node environments.
+renderToReadableStream: for modern edge runtime environments, such as Deno and Cloudflare workers.
+
+### New Strict Mode Behaviors
+
+React 18 introduces a new development-only check to Strict Mode. This new check will automatically unmount and remount every component, whenever a component mounts for the first time, restoring the previous state on the second mount.
+
+Before this change, React would mount the component and create the effects.
+
+### New Hooks
+
+useId, useTransition, useDeferredValue, useSyncExternalStore, useInsertionEffect
 
 ## Hooks
 
@@ -154,3 +210,141 @@ function App() {
 ```
 
 Feel free to enhance this README file with additional information or customize it according to your needs.
+
+## Side Effects
+
+Updating the screen, starting an animation, changing the data—are called side effects.
+In React, side effects usually belong inside event handlers. Event handlers are functions that React runs when you perform some action—for example, when you click a button. Even though event handlers are defined inside your component, they don’t run during rendering! So event handlers don’t need to be pure.
+
+If you’ve exhausted all other options and can’t find the right event handler for your side effect, you can still attach it to your returned JSX with a useEffect call in your component. This tells React to execute it later, after rendering, when side effects are allowed. However, this approach should be your last resort.
+
+## Why does React care about purity?
+
+Writing pure functions takes some habit and discipline. But it also unlocks marvelous opportunities:
+
+Your components could run in a different environment—for example, on the server! Since they return the same result for the same inputs, one component can serve many user requests.
+You can improve performance by skipping rendering components whose inputs have not changed. This is safe because pure functions always return the same results, so they are safe to cache.
+If some data changes in the middle of rendering a deep component tree, React can restart rendering without wasting time to finish the outdated render. Purity makes it safe to stop calculating at any time.
+
+## Rendering In React
+
+Any screen update in a React app happens in three steps:
+Trigger
+Render
+Commit
+You can use Strict Mode to find mistakes in your components
+React does not touch the DOM if the rendering result is the same as last time
+
+## Batching in React
+
+Setting state does not change the variable in the existing render, but it requests a new render.
+React processes state updates after event handlers have finished running. This is called batching.
+To update some state multiple times in one event, you can use setNumber(n => n + 1) updater function.
+
+## Why is mutating state not recommended in React?
+
+Hide Details
+There are a few reasons:
+
+- Debugging: Using console.log and avoiding state mutation allows for clear debugging and tracking of state changes between renders in React.
+- Optimizations: React optimization strategies can skip unnecessary work by checking if previous state or props are the same as the next ones, and if state is never mutated, checking if prevObj === obj can confirm that nothing has changed inside it.
+- New Features: The new React features we’re building rely on state being treated like a snapshot. If you’re mutating past versions of state, that may prevent you from using the new features.
+- Requirement Changes: Using immutable state in React makes it easier to implement features like Undo/Redo, history of changes, and resetting forms to earlier values, as past copies of state can be kept in memory and reused when needed.
+- Simpler Implementation: React does not require special handling of objects in state, as it does not rely on mutation and can handle any object without performance or correctness issues.
+
+## Preserving and resetting state
+
+React keeps state for as long as the same component is rendered at the same position.
+State is not kept in JSX tags. It’s associated with the tree position in which you put that JSX.
+You can force a subtree to reset its state by giving it a different key.
+Don’t nest component definitions, or you’ll reset state by accident.
+
+## Comparing useState and useReducer
+
+We recommend using a reducer if you often encounter bugs due to incorrect state updates in some component, and want to introduce more structure to its code. Reducers require you to write a bit more code, but they help with debugging and testing. Reducers must be pure.
+
+## React Refs vs. State Comparison
+
+|            | React Refs                               | State                                                      |
+| ---------- | ---------------------------------------- | ---------------------------------------------------------- |
+| API        | `useRef(initialValue)`                   | `useState(initialValue)`                                   |
+| Returns    | `{ current: initialValue }`              | `[value, setValue]`                                        |
+| Re-render  | No                                       | Yes                                                        |
+| Mutability | Mutable                                  | "Immutable"                                                |
+| Usage      | - Storing mutable values                 | - Managing component-specific data                         |
+|            | - Accessing/manipulating DOM elements    | - Triggering re-renders                                    |
+|            | - Caching values/references              | - Storing values affecting component visual representation |
+|            |                                          | - Handling user input and maintaining component state      |
+|            |                                          |                                                            |
+| Notes      | - Avoid reading/writing during rendering | - Each render has its own snapshot of state                |
+
+## When to use refs
+
+Refs are used in React when a component needs to interact with external APIs, such as storing timeout IDs, manipulating DOM elements, or storing other objects that are not necessary to calculate the JSX.
+Usually, you will use refs for non-destructive actions like focusing, scrolling, or measuring DOM elements.
+A component doesn’t expose its DOM nodes by default. You can opt into exposing a DOM node by using forwardRef and passing the second ref argument down to a specific node.
+
+## What are Effects and how are they different from events?
+
+Effects in React are functions that allow you to perform side effects, such as fetching data or manipulating the DOM, after a component has rendered, while events are actions triggered by user interaction, such as clicking a button or typing in a form.
+
+## Infinite loop issue
+
+By default, Effects run after every render. This is why code like this will produce an infinite loop:
+
+const [count, setCount] = useState(0);
+useEffect(() => {
+setCount(count + 1);
+});
+
+useEffect(() => {
+// This runs after every render
+});
+
+useEffect(() => {
+// This runs only on mount (when the component appears)
+}, []);
+
+useEffect(() => {
+// This runs on mount _and also_ if either a or b have changed since the last render
+}, [a, b]);
+
+## React Version Comparison
+
+Here's a comparison of the major updates and differences between React versions 15, 16, 17, and 18:
+
+# React Version Comparison
+
+Here's a comparison of the major updates and differences between React versions 15, 16, 17, and 18:
+
+# React Version Comparison
+
+Here's a comparison of the major updates and differences between React versions 15, 16, 17, and 18:
+
+| React Version | Major Updates and Differences                                                                                                                                   |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| React 15      | - Introduced the concept of React components using classes.                                                                                                     |
+|               | - Implemented the virtual DOM diffing algorithm to efficiently update the DOM.                                                                                  |
+|               | - Introduced lifecycle methods such as `componentDidMount`, `componentDidUpdate`, and `componentWillUnmount`.                                                   |
+|               | - Supported server-side rendering (SSR) to render React components on the server.                                                                               |
+|               | - Used React.createClass for component creation.                                                                                                                |
+|               | - Used PropTypes for type checking and validation of props.                                                                                                     |
+| React 16      | - Introduced support for returning an array of elements or fragments from components.                                                                           |
+|               | - Introduced the concept of "Fiber" - a reimplementation of the React reconciliation algorithm to enable asynchronous rendering and improve performance.        |
+|               | - Introduced error boundaries to catch and handle errors in component trees.                                                                                    |
+|               | - Replaced `componentWillMount`, `componentWillReceiveProps`, and `componentWillUpdate` with safer alternatives.                                                |
+|               | - Introduced the `React.createRef` API for creating refs.                                                                                                       |
+|               | - Added support for returning `null` from component render methods.                                                                                             |
+| React 17      | - No major breaking changes introduced in React 17.                                                                                                             |
+|               | - Focused on improving the existing features, performance, and stability of React.                                                                              |
+|               | - Introduced React's official support for the new JSX Transform, which enables a more streamlined and modern syntax for writing JSX.                            |
+|               | - Enhanced the error handling experience by providing more helpful error messages and warnings.                                                                 |
+| React 18      | - Introduced several new features and improvements, including:                                                                                                  |
+|               | - **Automatic Batching**: Improved batching mechanism to reduce re-renders and optimize performance.                                                            |
+|               | - **Hooks Refresh**: Improved behavior and performance of hooks, including better handling of dependencies and reduced re-renders.                              |
+|               | - **Concurrent Rendering**: Enhanced concurrent rendering capabilities to improve the responsiveness and user experience of React applications.                 |
+|               | - **Event Delegation**: Improved event handling and delegation model, making it more efficient and performant.                                                  |
+|               | - **New JSX Transform**: Officially introduced the new JSX Transform as the default for transforming JSX code, offering improved performance and compatibility. |
+|               | - **Improved Profiling**: Enhanced profiling capabilities to provide better insights into the performance of React components.                                  |
+
+React Hooks were introduced in React version 16.8
