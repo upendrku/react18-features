@@ -1,22 +1,21 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from "react";
 
 const App = () => {
-  const [count, setCount] = useState(0);
+  const [data, setData] = useState(null);
 
-  const increment = useCallback(() => {
-    setCount(prevCount => prevCount + 1);
-  }, []);
+  async function fetchData() {
+    const response = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+    const data = await response.json();
+    setData(data);
+  }
 
-  const decrement = useCallback(() => {
-    setCount(prevCount => prevCount - 1);
+  useEffect(() => {
+    fetchData();
   }, []);
 
   return (
-    <div className="App">
-      <h1>Counter</h1>
-      <p>Count: {count}</p>
-      <button onClick={increment}>Increment</button>
-      <button onClick={decrement}>Decrement</button>
+    <div>
+      {data && <h1>{data.title}</h1>}
     </div>
   );
 };
