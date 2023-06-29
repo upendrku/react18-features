@@ -409,7 +409,11 @@ When using `useState` with a React functional component, it provides similar fun
 
 4. **Function Scope:** In functional components, state variables declared using `useState` are scoped to the function and persist across re-renders. In contrast, state in class components is managed by the instance and can be accessed through `this.state`. Each instance of a class component maintains its own separate state. ---> IMPORTANT
 
-5. **Performance and Rendering:** Functional components with `useState` can have performance advantages over class components. The React team has optimized functional components with hooks to reduce unnecessary re-renders and improve performance compared to class components. ---> IMPORTANT
+5. **Performance and Rendering:** Functional components with `useState` can have performance advantages over class components. The React team has optimized functional components with hooks to reduce unnecessary re-renders and improve performance compared to class components.
+
+Hooks are stateless - This means that hooks do not have any state of their own. This can help to improve performance, as there is no need to create or update any state objects when a hook is invoked.
+
+Hooks are composable - This means that you can use hooks inside other hooks. This can help to make your code more concise and reusable.
 
 Advantages of using `useState` with functional components:
 
